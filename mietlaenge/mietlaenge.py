@@ -178,6 +178,8 @@ def liste_mitlaenge():
 
     token = openwowi_create_token(wowi_host, wowi_user, wowi_pass)
 
+    min_mietlaenge = int(settings.get("min_mietjahre", 40))
+
     use_cache = True
     cache_file_wowi_nv = "wowi_nv.json"
     cache_file_wowi_contractors = "wowi_contractors.json"
@@ -288,7 +290,7 @@ def liste_mitlaenge():
         mieter_tage = entry["tage_mieter"]
         mieter_jahre = mieter_tage / 365
 
-        if mieter_jahre < 40:
+        if mieter_jahre < min_mietlaenge:
             continue
         is_dead, person_object = person_is_dead(wowi_host, token, wowi_key, entry_cont['Person']['Id'])
         entry["person_object"] = person_object
